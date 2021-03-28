@@ -1,3 +1,92 @@
-.App {
-  
+#root{
+    margin:0px;
+    padding:0px;
+}
+
+.App {  
+   
+    margin:auto;
+}
+
+.content{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    display: block;
+    text-align: center;
+    max-width: 1140px;
+    color: rgb(15, 9, 15);
+    padding-bottom: 50px;
+}   
+
+.content h1{
+    font-size: 80px;
+    font-size: 112px;
+    font-weight: 900;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin: auto;
+    text-align: center;
+
+}
+
+.content p{
+    padding-top: 10px;
+    padding-bottom: 10px
+    ;
+}
+
+form{
+    background: linear-gradient(to top right, #fa9e1b, #8d4fff);
+    margin-top: 52px;
+    font-size: 0px;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 20px;
+}
+
+form>h4{
+    font-size: 30px;
+    font-weight: 700;
+    color: inherit;
+    text-transform: uppercase;
+}
+.col-by-2>label{
+    color:inherit;
+    font-size:18px;
+    font-weight: bold;
+}
+.col-by-2>input{
+    display: inline-block;
+    height: 48px;
+    font-size: 12px;
+    font-weight: 400;
+    border: none;
+    outline: none;
+    background: transparent;
+    color:inherit;
+    border-bottom: solid 2px #e1e1e1;   
+    padding: 20px;
+    margin: 20px;
+}
+
+form>button{
+    display: block;
+    margin: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color:inherit;
+    text-transform: uppercase;
+    padding-left: 29px;
+    padding-right: 29px;
+    background: #31124b;
+    border: none;
+    cursor: pointer;
+    height: 53px;
+    border-radius: 27px;
+    
+}
+
+form>button:hover{
+    opacity: 0.8;
 }

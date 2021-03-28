@@ -1,0 +1,25 @@
+
+.col-by-2>h4{
+    font-size: 30px;
+    font-weight: 700;
+    color: inherit;
+    text-transform: uppercase;
+}
+.col-by-2>label{
+    color:inherit;
+    font-size:18px;
+    font-weight: bold;
+}
+.col-by-2>input{
+    display: inline-block;
+    height: 48px;
+    font-size: 12px;
+    font-weight: 400;
+    border: none;
+    outline: none;
+    background: transparent;
+    color:inherit;
+    border-bottom: solid 2px #e1e1e1;   
+    padding: 20px;
+    margin: 20px;
+}

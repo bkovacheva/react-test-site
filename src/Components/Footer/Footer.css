@@ -1,0 +1,9 @@
+.footer{
+    margin-right: 15px;
+    /* position: relative; */
+    width: 100%;
+    height: 36px;
+    background: #350a4e;
+    margin:auto;
+    text-align:center;
+}
