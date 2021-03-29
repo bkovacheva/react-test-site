@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import SimpleMap from "../GoogleMaps/GoogleMaps"
 import "./Categories.css"
 
 class Categories extends Component {
@@ -10,8 +11,19 @@ class Categories extends Component {
             currentCategory: 'all',
         }
     }
+
+    static defaultProps = {
+        center: {
+          lat: 59.95,
+          lng: 30.33
+        },
+        zoom: 11
+      };
+    
+   
   
     render() {
+        const AnyReactComponent = ({ text }) => <div className="GoogleTest">SomeTest</div>;
         const name = this.props.match.params.location;
         let destination;
         let imgURL;
@@ -48,6 +60,7 @@ class Categories extends Component {
                         </div>
                     </div>
                 </section>
+                <SimpleMap />
             </div>
         )
     }
