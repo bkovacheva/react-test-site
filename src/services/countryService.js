@@ -1,6 +1,7 @@
 
-export const getAll = (country) => {
+export const getCountryInfo = (country) => {
     const url = 'https://restcountries.eu/rest/v2/name/'+country;
+    console.log(url)
     // let petsUrl = url + ((category && category != 'all') ? `?category=${category}` : '');
 
     return fetch(url)

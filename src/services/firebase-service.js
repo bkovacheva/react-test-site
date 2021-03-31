@@ -1,11 +1,6 @@
 import firebase from "firebase/app";
 import firestore from "firebase/app";
 
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
-
-
-
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -16,22 +11,29 @@ const firebaseConfig = {
   };
 
 // const firebase = !fb.apps.length ? fb.initializeApp(firebaseConfig) : fb.app()
-    if(!firebase.apps.length){
-        firebase.initializeApp(firebaseConfig);
-        // let firestore = firebase.firestore();
-    }
-//   const firebaseApp = firestore.initializeApp({firebaseConfig});
- export default firebase;
+if(!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig);
+}
 
-  
-// export const getOne = () => {
-//     // const db = firebase.firestore();
-//     firebase.
-    
-//     return firebase.collection('countries').onSnapshot((snapshot) => {
-//         const postData = [];
-//         snapshot.forEach((doc) => postData.push({ ...doc.data(), id: doc.id }));
-//         console.log(postData);  // <------
-//         // setPosts(postData);
-//       });
+// const db = firebase.firestore();
+// export const getOneCountryDetails = (name) => {    
+//     return db.collection("countries").where("continent","==",name)
+//             .get()
+//             .then(querySnapshot => {    
+//                 const data = querySnapshot.docs.map(doc => doc.data());
+//                 return data
+//         ;}) 
 // }
+
+// export const checkForExistingUser = (user) => {    
+//     return db.collection("users").where("username","==",user)
+//             .get()
+//             .then(querySnapshot => { 
+//                 if(!querySnapshot.empty){
+//                     return true
+//                 }else{
+//                     return false
+//                 }
+//         ;}) 
+// }
+export default firebase;
