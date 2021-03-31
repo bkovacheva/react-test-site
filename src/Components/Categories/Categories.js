@@ -1,30 +1,36 @@
-import { Component } from 'react';
+import { useState,useEffect } from 'react';
 import SimpleMap from "../GoogleMaps/GoogleMaps"
+import * as countryService from "../../services/countryService"
 import "./Categories.css"
+import firebase from "../../services/firebase-service"
+import 'firebase/firestore';
 
-class Categories extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            pets: [],
-            currentCategory: 'all',
-        }
-    }
+const Categories = ({
+    match
+}) => {
+        const name = match.params.location;
+        let [country, setLocaion] = useState({});
+        let [likes, setLikes] = useState({});
 
-    static defaultProps = {
-        center: {
-          lat: 59.95,
-          lng: 30.33
-        },
-        zoom: 11
-      };
+        useEffect(() => {
+            countryService.getAll(name)
+                .then(res => setLocaion(res));
+           
+        }, [name]);
+
+        useEffect(() => {
+            country=name.charAt(0).toUpperCase() + name.slice(1);
+            const db = firebase.firestore();
+            db.collection("countries").where("countryName","==",country)
+                .get()
+                .then(querySnapshot => {    
+                    const data = querySnapshot.docs.map(doc => doc.data());
+            setLikes(data)
+            ;})
+           
+        }, [name]);
     
-   
-  
-    render() {
-        const AnyReactComponent = ({ text }) => <div className="GoogleTest">SomeTest</div>;
-        const name = this.props.match.params.location;
         let destination;
         let imgURL;
         if (name){
@@ -46,12 +52,18 @@ class Categories extends Component {
                     </div>
                 </main>
                 <section className="content"> 
+                            {/* <FirebaseContext.Consumer>
+                                {firebase => {
+                                    return <div>I've access to Firebase and render something.</div> 
+                                    
+                                }}
+                            </FirebaseContext.Consumer> */}
+                           
                     <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum sit amet nulla sit amet interdum. Sed est magna, pretium sit amet velit non, porttitor faucibus odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus nec orci non quam ultrices sodales a at ipsum. Aliquam erat volutpat. Integer fringilla finibus neque, eu ornare risus mattis tempus. Curabitur ornare neque quis nisl sodales, a consectetur justo tempus. Maecenas sed imperdiet quam. Mauris urna sem, tristique id elementum eget, consequat nec libero. Donec varius massa justo. Vivamus iaculis dolor eu nulla venenatis, vel mattis magna tempus. Ut bibendum mi quis augue porta, at placerat arcu condimentum. Praesent eu turpis vitae odio maximus placerat. Suspendisse tincidunt aliquam elit quis auctor. Donec ac tincidunt dolor, quis pellentesque ex. Nulla interdum enim ut tellus fermentum ornare.
-
-                        </p>
-                        <p>Vivamus porttitor ipsum et aliquet euismod. Vivamus luctus, augue id interdum consectetur, metus enim mattis augue, at laoreet nisi diam quis nunc. Phasellus ac arcu venenatis, pellentesque velit ut, auctor ipsum. Aenean ultrices dolor odio, vitae tempus purus tincidunt id. Aenean fermentum, augue finibus accumsan ultrices, erat leo faucibus tortor, eu dictum lorem tellus sit amet enim. Fusce metus ante, dignissim sed dui ut, sollicitudin laoreet enim. Duis tellus nulla, facilisis eu imperdiet vel, interdum vehicula lorem. Donec quis tellus facilisis ex vehicula scelerisque sit amet sit amet lorem. Praesent porttitor tristique porta. In pulvinar ex ut turpis rhoncus malesuada. Integer ut justo nec nisi tincidunt mollis ac sed libero. Donec ut auctor urna. Sed consectetur elit non libero ullamcorper, sed ultrices metus lacinia.
-                        </p>
+                        <p>Capital: {country[0]?.capital}</p>
+                        <p>Likes: {likes[0]?.likes}</p>
+                        <p>Lat: {likes[0]?.lat}</p>
+                        <p>Long: {likes[0]?.long}</p>
                         <div className="placesContainer" style={{ backgroundImage: `url(`+imgURL+`)` }}>
                         </div>
                         <div className="placesContainer" style={{ backgroundImage: `url(`+imgURL+`)` }}>
@@ -60,9 +72,8 @@ class Categories extends Component {
                         </div>
                     </div>
                 </section>
-                <SimpleMap />
+                <SimpleMap lat={likes[0]?.lat} lng={likes[0]?.long}/>
             </div>
         )
-    }
 };
 export default Categories;

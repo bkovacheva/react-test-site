@@ -4,11 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import Firebase, { FirebaseContext } from './Components/Firebase';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      {/* <FirebaseContext.Provider value={new Firebase()}> */}
+        <App />
+      {/* </FirebaseContext.Provider> */}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
