@@ -6,7 +6,7 @@ import CountryDetails from './Components/CountryDetails/CountryDetails'
 import Footer from './Components/Footer/Footer'
 import Login from './Components/Login/Login'
 import Register from './Components/Register/Register'
-
+import firebase from "./services/firebase-service"
 function App() {
   return (
     <div className="App">      

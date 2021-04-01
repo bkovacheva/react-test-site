@@ -1,17 +1,18 @@
 import { useState,useEffect } from 'react';
 import ErrorMessage from "../ErrorMessage/ErrorMessage"
 import firebase from "../../services/firebase-service"
-import * as firebaseService from "../../services/firebase-service"
 import 'firebase/firestore';
+// import { auth} from "firebase/auth";
 
 const Register =({
     history,
 }) => {
     const [errorMessage, setErrorMessage] = useState('');
+    
 
+    const db = firebase.firestore();
     const registerNewUser = (e) => {
         e.preventDefault();
-        const db = firebase.firestore();
         let emailaddress= e.target.email.value
         let usernameValue= e.target.username.value
         let firstname=e.target.first_name.value
@@ -36,11 +37,12 @@ const Register =({
 
         if(password.length < 7){
             errors.push('Password too short. Must be more than 8 characters.')            
-        }else if (!password == retypepassword){
+        }else if (!(password == retypepassword)){
             errors.push('Passwords do not match');
-        }else if((password == retypepassword) && password.length <7){
+        }else if((password == retypepassword) && password.length >7){
             passwordValidation=true            
         }
+
         if(firstname=='' ){
             errors.push('Your first name cannot be empty.')            
         }else {
@@ -53,60 +55,36 @@ const Register =({
             familynameValidation=true
         }
 
-        //Cecking 
-        let myPromise = new Promise(function(username) {
-            db.collection("users").where("username","==",usernameValue)
-            .get()
-            .then(querySnapshot => { 
-                const data = querySnapshot.docs.map(doc => doc.data());
-                if(!data){
-                    console.log("Empty query")
-                }else{
-                    console.log("Has a match")
-                    usernameValidation=false
-                }
-                    
-            ;}) 
-          });
-        //Checking
+        if(usernameValue=='' ){
+            errors.push('Your username cannot be empty.')            
+        }else {
+            usernameValidation=true
+        }
 
-
-        // db.collection("users").where("username","==",usernameValue)
-        // .get()
-        // .then(querySnapshot => { 
-        //     const data = querySnapshot.docs.map(doc => doc.data());
-        //     if(!data){
-        //         console.log("Empty query")
-        //     }else{
-        //         console.log("Has a match")
-        //         usernameValidation=false
-        //     }
-                
-        // ;}) 
-
-        console.log(myPromise.then("some"))
-
+       
         if(emailValidated 
             && passwordValidation 
             && firstnameValidation 
             && familynameValidation
             && usernameValidation
             ){
-                console.log("proper setup")
+                // auth.createUserWithEmailAndPassword(usernameValue,password)
+                db.collection("users").add({
+                    email: emailaddress,
+                    username: usernameValue,
+                    firstName: firstname,
+                    familyName: familyname,
+                    password: password
+                }).then(() => {
+                    history.push('/login');
+                })
             }
         else{
+            console.log(password.length >7)
             setErrorMessage(errors)
         }
         
-                // db.collection("users").add({
-                //     email: e.target.email.value,
-                //     username: e.target.username.value,
-                //     firstName: e.target.first_name.value,
-                //     familyName: e.target.first_name.value,
-                //     password: e.target.password.value
-                // }).then(() => {
-                //     history.push('/');
-                // })
+                //
     };
     return (
         <div>
@@ -117,8 +95,7 @@ const Register =({
                     </div>
                 </div>
             </main>
-            <section className="content"> 
-                
+            <section className="content">                 
                 <form onSubmit={registerNewUser}>
                 {Object.keys(errorMessage).map(error => {
                             return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)

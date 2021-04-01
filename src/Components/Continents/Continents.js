@@ -21,15 +21,13 @@ const Continents = ({
                 ;})            
             }
         }, [name]);
-       
-        console.log("../../images/"+(name ? name : "main") +".jpg")
         return (
             <div>
                 <main className="main-container">
-                    <div className="background" style={{ backgroundImage: `url(`+"../../images/"+(name ? name : "main") +".jpg"+`)` }}>
+                    <div className="background" style={{ backgroundImage: `linear-gradient(rgb(53 10 78 / 45%), rgba(53 10 78 / 45%)),url(`+"../../images/"+(name ? name : "main") +".jpg"+`)` }}>
                         <div className="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
                             <h1>discover</h1>
-                            <h1>{name}</h1>
+                            <h1>{name.replace("_"," ")}</h1>
                         </div>
                     </div>
                 </main>
@@ -37,11 +35,12 @@ const Continents = ({
                     <div>
                         {Object.keys(continentData).map(data => {
                             let countryName= continentData[data].countryName
-                            // imgURL="../../images/"+countryName+".jpg"
                             return (
                                 //to={`/users/${user.id}`}
-                                <Link to={`/${name}/${countryName}`}>
-                                    <div key={countryName} className="placesContainer" style={{ backgroundImage: `url(`+"../../images/"+countryName+".jpg"+`)` }}>
+                                <Link  key={countryName} to={`/${name}/${countryName}`}>
+                                    <div className="placesContainer" style={{ backgroundImage: `url(`+"../../images/"+countryName+".jpg"+`)` }}>
+                                        <span>Visited: {continentData[data].visited}</span>
+                                        <p>{countryName}</p>
                                     </div>
                                 </Link>
                         
