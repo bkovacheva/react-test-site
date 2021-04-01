@@ -12,6 +12,8 @@ class Header extends Component{
                             <div className="user_box ml-auto">
                                 <div className="user_box_link"><Link to="/login">LOGIN</Link></div>
                                 <div className="user_box_link"><Link to="/register">REGISTER</Link></div>
+                                <div className="user_box_link"><Link to="/logout">LOGOUT</Link></div>
+                                <div className="user_box_link"><Link to="/profile">PROFILE</Link></div>
                             </div>
                         </div>
                     </div>

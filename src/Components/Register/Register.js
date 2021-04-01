@@ -88,10 +88,10 @@ const Register =({
     };
     return (
         <div>
-            <main className="main-container">
-                <div className="background" style={{ backgroundImage: `url(../../images/main.jpg)` }}>
+            <main className="main-container-small">
+                <div className="background" style={{ backgroundImage: `linear-gradient(#350a4e4d, #350a4e4d),url(../../images/main.jpg)` }}>
                     <div className="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
-                        <h1>Register</h1>
+                        <h2>Register</h2>
                     </div>
                 </div>
             </main>
@@ -100,7 +100,7 @@ const Register =({
                 {Object.keys(errorMessage).map(error => {
                             return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)
                     })}
-                {/* <ErrorMessage>{errorMessage}</ErrorMessage> */}
+                <ErrorMessage>{errorMessage}</ErrorMessage>
                     <div className="col-by-2">
                         <label htmlFor="first_name">First Name:</label>
                         <input type="text" name="first_name" id="first_name" ></input>

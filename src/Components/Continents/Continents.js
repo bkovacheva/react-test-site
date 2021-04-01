@@ -21,13 +21,28 @@ const Continents = ({
                 ;})            
             }
         }, [name]);
+
+        let destination;
+        let imgURL;
+        if (name){
+            if(name.includes("_")){
+                destination=name.replace("_"," ")
+            }else{
+                destination=name
+            }
+            imgURL="../../images/"+name+".jpg"
+        }
+        else{
+            destination='the world'
+            imgURL="../../images/main.jpg"
+        }
         return (
             <div>
                 <main className="main-container">
-                    <div className="background" style={{ backgroundImage: `linear-gradient(rgb(53 10 78 / 45%), rgba(53 10 78 / 45%)),url(`+"../../images/"+(name ? name : "main") +".jpg"+`)` }}>
+                    <div className="background" style={{ backgroundImage: `linear-gradient(#350a4e4d, #350a4e4d),url(`+"../../images/"+(name ? name : "main") +".jpg"+`)` }}>
                         <div className="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
                             <h1>discover</h1>
-                            <h1>{name.replace("_"," ")}</h1>
+                            <h1>{destination}</h1>
                         </div>
                     </div>
                 </main>
@@ -35,10 +50,16 @@ const Continents = ({
                     <div>
                         {Object.keys(continentData).map(data => {
                             let countryName= continentData[data].countryName
+                            let imageName;
+                            if(countryName.includes(" ")){
+                                imageName=countryName.replace(" ","_")
+                            }else{
+                                imageName=countryName
+                            }
                             return (
                                 //to={`/users/${user.id}`}
                                 <Link  key={countryName} to={`/${name}/${countryName}`}>
-                                    <div className="placesContainer" style={{ backgroundImage: `url(`+"../../images/"+countryName+".jpg"+`)` }}>
+                                    <div className="placesContainer" style={{ backgroundImage: `url(`+"../../images/"+imageName+".jpg"+`)` }}>
                                         <span>Visited: {continentData[data].visited}</span>
                                         <p>{countryName}</p>
                                     </div>
