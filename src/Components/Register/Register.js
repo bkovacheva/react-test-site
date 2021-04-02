@@ -1,13 +1,15 @@
 import { useState,useEffect } from 'react';
-import ErrorMessage from "../ErrorMessage/ErrorMessage"
-import firebase from "../../services/firebase-service"
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import firebase from "../../services/firebase-service";
 import 'firebase/firestore';
-// import { auth} from "firebase/auth";
+import { auth } from "../../services/firebase-service";
+
 
 const Register =({
     history,
 }) => {
     const [errorMessage, setErrorMessage] = useState('');
+    const [userEmailErrorMessage, setUserEmail] = useState('');
     
 
     const db = firebase.firestore();
@@ -16,7 +18,7 @@ const Register =({
         let emailaddress= e.target.email.value
         let usernameValue= e.target.username.value
         let firstname=e.target.first_name.value
-        let familyname=e.target.first_name.value
+        let familyname=e.target.family_name.value
         let password =e.target.password.value
         let retypepassword=e.target.rep_pass.value
         let emailValidated=false
@@ -24,16 +26,19 @@ const Register =({
         let firstnameValidation=false
         let familynameValidation=false
         let passwordValidation=false
-        let errormessage
+        let errorMessage;
         let errors=[]
-
         let emailRegEx=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/
 
-        if(emailRegEx.test(emailaddress)){
-            emailValidated=true
-        }else{
-            errors.push('Email is not appropriate');
+        if(emailaddress=='' ){
+            errors.push('Your email address cannot be empty.')
+        }else if(!emailRegEx.test(emailaddress)){
+            errors.push('Email is not appropriate');            
         }
+        else{
+            emailValidated=true
+        }
+        
 
         if(password.length < 7){
             errors.push('Password too short. Must be more than 8 characters.')            
@@ -68,21 +73,28 @@ const Register =({
             && familynameValidation
             && usernameValidation
             ){
-                // auth.createUserWithEmailAndPassword(usernameValue,password)
-                db.collection("users").add({
-                    email: emailaddress,
-                    username: usernameValue,
-                    firstName: firstname,
-                    familyName: familyname,
-                    password: password
-                }).then(() => {
-                    history.push('/login');
-                })
+               
+                auth.createUserWithEmailAndPassword(emailaddress, password)
+                    .then(userCredential => {
+                        db.collection("users").add({
+                            email: emailaddress,
+                            username: usernameValue,
+                            firstName: firstname,
+                            familyName: familyname,
+                            password: password
+                        })
+                        .then(() => {
+                            history.push('/login');
+                        })
+                    })
+                    .catch(error => 
+                        setUserEmail(error.message)
+                        );
             }
         else{
-            console.log(password.length >7)
             setErrorMessage(errors)
         }
+       
         
                 //
     };
@@ -100,7 +112,7 @@ const Register =({
                 {Object.keys(errorMessage).map(error => {
                             return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)
                     })}
-                <ErrorMessage>{errorMessage}</ErrorMessage>
+                { userEmailErrorMessage ? <ErrorMessage>{userEmailErrorMessage}</ErrorMessage> : null}
                     <div className="col-by-2">
                         <label htmlFor="first_name">First Name:</label>
                         <input type="text" name="first_name" id="first_name" ></input>

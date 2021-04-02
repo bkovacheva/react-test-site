@@ -7,14 +7,4 @@ export const getCountryInfo = (country) => {
     return fetch(url)
         .then(response=>response.json())
         .catch(error => console.log(error));
-
-    // return fetch(petsUrl)
-    //     .then(res => res.json())
-    //     .catch(error => console.log(error));
 }
-
-// export const getOne = (petId) => {
-//     return fetch(`${url}/${petId}`)
-//         .then(res => res.json())
-//         .catch(error => console.log(error));
-// }

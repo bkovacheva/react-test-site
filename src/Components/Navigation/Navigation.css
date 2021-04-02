@@ -27,8 +27,6 @@
   }
   
   .main-menu-item:hover{
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
     text-shadow: rgb(0 0 0 / 1%) 0 0 1px;
+    color: #350a4e;
   }

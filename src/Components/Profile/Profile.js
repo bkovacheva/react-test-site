@@ -1,8 +1,33 @@
 
+import { useState,useEffect } from 'react';
 import "./Profile.css"
 import {Link } from "react-router-dom"
+import CurrentUserDetails from "./CurrentUserDetails/CurrentUserDetails"
+import ChangeUserDetails from "./ChangeUserDetails/ChangeUserDetails"
 
-const Profile= () => (
+const Profile=(props) => {
+   const emailAddress=props.loggedUser.email
+
+   const [component,setComponent]=useState({});
+
+   const changeComponent=(e)=>{
+       const compomentName = e.target.name
+       setComponent(compomentName)
+
+   }
+   function renderComponent(){
+        switch(component) {
+        case "CurrentUserDetails":
+        return <CurrentUserDetails email={emailAddress}/>
+        case "ChangeUserDetails":
+        return <ChangeUserDetails />;
+        default:
+            return <CurrentUserDetails email={emailAddress}/>
+        }
+    }
+
+   console.log(renderComponent())
+    return(
     <div>
         <main className="main-container-small">
             <div className="background" style={{ backgroundImage: `linear-gradient(#350a4e4d, #350a4e4d),url(`+"../../images/main.jpg"+`)` }}>
@@ -14,44 +39,22 @@ const Profile= () => (
         <section className="content"> 
             <aside>
                 <ul>
-                    <li><Link>Change User Details</Link></li>
-                    <li><Link>Change Password</Link></li>
-                    <li><Link>Visited Countries</Link></li>
-                    <li><Link>Logout</Link></li>
+                    <li><Link to="#" name="CurrentUserDetails" onClick={changeComponent}>CurrentUserDetails</Link></li>
+                    <li><Link to="#" name="ChangeUserDetails" onClick={changeComponent}>Change User Details</Link></li>
+                    <li><Link to="#" name="ChangeUserPassword" onClick={changeComponent}>Change Password</Link></li>
+                    <li><Link to="#" name="Visited Countries" onClick={changeComponent}>Visited Countries</Link></li>
+                    <li><Link to="/logout">Logout</Link></li>
                 </ul>
             </aside>
-            <div className="userDetailsSection"> 
-                {/* <h3>Change User Details</h3> */}
-                <form >
-                <h4>Change User Details</h4>
-                {/* {Object.keys(errorMessage).map(error => {
-                            return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)
-                    })}
-                <ErrorMessage>{errorMessage}</ErrorMessage> */}
-                    <div className="col-by-2">
-                        <label htmlFor="first_name">First Name:</label>
-                        <input type="text" name="first_name" id="first_name" ></input>
-                        <label htmlFor="family_name">Family Name:</label>
-                        <input type="text" name="family_name" id="family_name" ></input> 
-                    </div>
-                    <div className="col-by-2">
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" name="password" id="password" ></input>
-                        <label htmlFor="rep_pass"> Repeat Password:</label>
-                        <input type="password" name="rep_pass" id="rep_pass" ></input>
-                    </div>
-                    <div className="col-by-2">
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" name="username" id="username" ></input>
-                        <label htmlFor="email">Email:</label>
-                        <input type="text" name="email" id="email" ></input>
-                    </div>
-                    <button name="loginButton" >Register</button>
-                </form>
+            <div className="userDetailsSection">
+            <span>{renderComponent()}</span>
+                {/* <CurrentUserDetails email={emailAddress}/> */}
 
             </div>
         </section>
     </div>
-);
+     );
+};
+      
 
 export default Profile;

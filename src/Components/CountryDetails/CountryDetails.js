@@ -27,13 +27,11 @@ const CountryDetails = ({
                 imgURL="../../images/"+country+".jpg"
             }
             destination=country
-            console.log(imgURL)
         }
         else{
             destination='the world'
             imgURL="../../images/main.jpg"
         }
-        console.log(countryInfo[0]?.currencies)
         return (
             <div>
                 <main className="main-container">
