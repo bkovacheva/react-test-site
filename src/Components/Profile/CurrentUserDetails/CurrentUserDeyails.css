@@ -1,0 +1,14 @@
+.form-look-like{
+    background: linear-gradient(to top right, #fa9e1b, #8d4fff);
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 20px;
+    display: inline-block;
+}
+
+.form-look-like h4{
+    font-size: 30px;
+    font-weight: 700;
+    color: inherit;
+    text-transform: uppercase;
+}

@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import firebase from "../../../services/firebase-service"
 import 'firebase/firestore';
 import { auth } from "../../../services/firebase-service";
+import "./CurrentUserDeyails.css"
 
 const CurrentUserDetails=(email) => {
     const [user,setUser]=useState({});
@@ -21,8 +22,8 @@ const CurrentUserDetails=(email) => {
     }, [emailAddress]);
 
     return(
-    <div >
-        <h2> User Details</h2>
+    <div className="form-look-like">
+        <h4> User Details</h4>
         <div className="col-by-2">
            
             <label htmlFor="first_name">First Name:</label>
