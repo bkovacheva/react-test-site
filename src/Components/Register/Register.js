@@ -80,8 +80,7 @@ const Register =({
                             email: emailaddress,
                             username: usernameValue,
                             firstName: firstname,
-                            familyName: familyname,
-                            password: password
+                            familyName: familyname
                         })
                         .then(() => {
                             history.push('/login');
@@ -107,32 +106,34 @@ const Register =({
                     </div>
                 </div>
             </main>
-            <section className="content">                 
-                <form onSubmit={registerNewUser}>
-                {Object.keys(errorMessage).map(error => {
-                            return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)
-                    })}
-                { userEmailErrorMessage ? <ErrorMessage>{userEmailErrorMessage}</ErrorMessage> : null}
-                    <div className="col-by-2">
-                        <label htmlFor="first_name">First Name:</label>
-                        <input type="text" name="first_name" id="first_name" ></input>
-                        <label htmlFor="family_name">Family Name:</label>
-                        <input type="text" name="family_name" id="family_name" ></input> 
-                    </div>
-                    <div className="col-by-2">
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" name="password" id="password" ></input>
-                        <label htmlFor="rep_pass"> Repeat Password:</label>
-                        <input type="password" name="rep_pass" id="rep_pass" ></input>
-                    </div>
-                    <div className="col-by-2">
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" name="username" id="username" ></input>
-                        <label htmlFor="email">Email:</label>
-                        <input type="text" name="email" id="email" ></input>
-                    </div>
-                    <button name="loginButton" >Register</button>
-                </form>
+            <section className="content">
+                <div className="main-form">             
+                    <form onSubmit={registerNewUser}>
+                    {Object.keys(errorMessage).map(error => {
+                                return ( <ErrorMessage key={error}>{errorMessage[error]}</ErrorMessage>)
+                        })}
+                    { userEmailErrorMessage ? <ErrorMessage>{userEmailErrorMessage}</ErrorMessage> : null}
+                        <div className="col-by-2">
+                            <label htmlFor="first_name">First Name:</label>
+                            <input type="text" name="first_name" id="first_name" ></input>
+                            <label htmlFor="family_name">Family Name:</label>
+                            <input type="text" name="family_name" id="family_name" ></input> 
+                        </div>
+                        <div className="col-by-2">
+                            <label htmlFor="password">Password:</label>
+                            <input type="password" name="password" id="password" ></input>
+                            <label htmlFor="rep_pass"> Repeat Password:</label>
+                            <input type="password" name="rep_pass" id="rep_pass" ></input>
+                        </div>
+                        <div className="col-by-2">
+                            <label htmlFor="username">Username:</label>
+                            <input type="text" name="username" id="username" ></input>
+                            <label htmlFor="email">Email:</label>
+                            <input type="text" name="email" id="email" ></input>
+                        </div>
+                        <button name="loginButton" >Register</button>
+                    </form>
+                </div>
             </section>
         </div>
     );

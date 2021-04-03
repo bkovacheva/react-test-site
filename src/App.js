@@ -29,19 +29,20 @@ function App() {
         <Header {...authInfo} />
 
         <Switch>
-          <Route path="/" exact  component={Continents}  />          
+         
           <Route path="/register" exact render={props => <Register {...props} {...authInfo} />} />
           <Route path="/login" exact component={Login} {...authInfo} /> 
           <Route path="/resetpassword" exact component={ResetPassword} {...authInfo} />
           {/* <Route path="/profile/:profile"  exact render={props => <Profile loggedUser={authInfo} />} /> */}
           <Route path="/profile" render={props => <Profile loggedUser={authInfo} />} />  
-          <Route path="/:location" exact component={Continents}  />
-          <Route path="/:location/:country" exact component={CountryDetails} {...authInfo} />
+         
           <Route path="/logout" render={() => {
               auth.signOut();
               return <Redirect to="/" />
             }} />
-         
+          <Route path="/" exact  component={Continents}  />
+          <Route path="/:location" exact component={Continents}  />
+          <Route path="/:location/:country" exact component={CountryDetails} {...authInfo} />       
           
           
         </Switch>

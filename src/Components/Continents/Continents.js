@@ -8,12 +8,15 @@ import 'firebase/firestore';
 const Continents = ({
     match
 }) => {
+        
         const name = match.params.location;
         let [continentData, setContinentData] = useState({});
         useEffect(() => {
             if(name){
                 const db = firebase.firestore();
-                db.collection("countries").where("continent","==",name)
+                db.collection("countries")
+                .where("continent","==",name)
+                .orderBy("visited","desc")
                     .get()
                     .then(querySnapshot => {    
                         const data = querySnapshot.docs.map(doc => doc.data());

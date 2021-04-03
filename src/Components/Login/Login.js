@@ -1,18 +1,15 @@
 import "./Login.css"
 import { Link} from 'react-router-dom';
-import React, {Component} from 'react'
+import React from 'react'
 import { auth } from "../../services/firebase-service";
 import firebase from "../../services/firebase-service";
 import 'firebase/firestore';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { useState,useEffect } from 'react';
-
-// export const MyContext = React.createContext("");
+import { useState } from 'react';
 
 const Login = ({
     history
 }) => {
-    // const MyContext = React.createContext(defaultValue);
     const db = firebase.firestore();
     const [errorHandler, setErrorHandler] = useState('');
     const onLoginFormSubmitHandler = (e) => {
@@ -20,18 +17,11 @@ const Login = ({
         const emailAddress = e.target.email.value;
         const password = e.target.password.value;
         auth.signInWithEmailAndPassword(emailAddress, password)
-            .then((userCredential) => {
-                // db.collection("users").where("email","==",emailAddress).get()
-                // .then(querySnapshot => {    
-                //     var data = querySnapshot.docs.map(doc => doc.data());
-                // })
-            }).then(() => {
+            .then(() => {
                     history.push('/');
                 })
             .catch(error=>setErrorHandler(error.message))
     };
-
-    
 
     return (
     <div>
@@ -44,22 +34,23 @@ const Login = ({
             </div>
         </main>
         <section className="content"> 
-            <form onSubmit={onLoginFormSubmitHandler}>
-            { errorHandler ? <ErrorMessage>{errorHandler}</ErrorMessage> : null}
-                <div className="col-by-2">
-                    <label htmlFor="email">Email:</label>
-                    <input type="text" name="email" id="email" ></input> 
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" name="password" id="password" ></input>
-                    
-                </div>
-                    <button name="loginButton" >LOGIN</button>
-              <Link to="/resetpassword" className="resetPassword">Reset password</Link>            
-            </form>
+            <div className="main-form">
+                <form onSubmit={onLoginFormSubmitHandler}>
+                { errorHandler ? <ErrorMessage>{errorHandler}</ErrorMessage> : null}
+                    <div className="col-by-2">
+                        <label htmlFor="email">Email:</label>
+                        <input type="text" name="email" id="email" ></input> 
+                        <label htmlFor="password">Password:</label>
+                        <input type="password" name="password" id="password" ></input>
+                        
+                    </div>
+                        <button name="loginButton" >LOGIN</button>
+                <Link to="/resetpassword" className="resetPassword">Reset password</Link>            
+                </form>
+            </div>
         </section>
     </div>
      );
-};
-       
+};   
 
 export default Login;
