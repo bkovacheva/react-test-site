@@ -14,6 +14,7 @@ const Login = ({
     const [errorHandler, setErrorHandler] = useState('');
     const onLoginFormSubmitHandler = (e) => {
         e.preventDefault();
+        setErrorHandler("")
         const emailAddress = e.target.email.value;
         const password = e.target.password.value;
         auth.signInWithEmailAndPassword(emailAddress, password)

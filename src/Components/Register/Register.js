@@ -14,6 +14,7 @@ const Register =({
 
     const db = firebase.firestore();
     const registerNewUser = (e) => {
+        setErrorMessage("");
         e.preventDefault();
         let emailaddress= e.target.email.value
         let usernameValue= e.target.username.value
@@ -26,7 +27,6 @@ const Register =({
         let firstnameValidation=false
         let familynameValidation=false
         let passwordValidation=false
-        let errorMessage;
         let errors=[]
         let emailRegEx=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/
 
@@ -38,34 +38,28 @@ const Register =({
         else{
             emailValidated=true
         }
-        
-
         if(password.length < 7){
             errors.push('Password too short. Must be more than 8 characters.')            
         }else if (!(password == retypepassword)){
             errors.push('Passwords do not match');
-        }else if((password == retypepassword) && password.length >7){
+        }else if((password == retypepassword) && (password.length >= 7)){
             passwordValidation=true            
         }
-
         if(firstname=='' ){
             errors.push('Your first name cannot be empty.')            
         }else {
             firstnameValidation=true
         }
-
         if(familyname=='' ){
             errors.push('Your family name cannot be empty.')            
         }else {
             familynameValidation=true
         }
-
         if(usernameValue=='' ){
             errors.push('Your username cannot be empty.')            
         }else {
             usernameValidation=true
         }
-
        
         if(emailValidated 
             && passwordValidation 
@@ -73,18 +67,19 @@ const Register =({
             && familynameValidation
             && usernameValidation
             ){
-               
                 auth.createUserWithEmailAndPassword(emailaddress, password)
                     .then(userCredential => {
+                        const userID= userCredential.user.uid
                         db.collection("users").add({
                             email: emailaddress,
                             username: usernameValue,
                             firstName: firstname,
-                            familyName: familyname
+                            familyName: familyname,
+                            id: userID
                         })
-                        .then(() => {
-                            history.push('/login');
-                        })
+                        setErrorMessage(`You have been successfully registered with email address:  ${emailaddress}.`);
+                    }).then(()=>{
+                        setTimeout(function(){  history.push('/profile');}, 2000); 
                     })
                     .catch(error => 
                         setUserEmail(error.message)
@@ -93,9 +88,6 @@ const Register =({
         else{
             setErrorMessage(errors)
         }
-       
-        
-                //
     };
     return (
         <div>

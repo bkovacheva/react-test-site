@@ -13,6 +13,7 @@ const Profile=(props) => {
    const emailAddress=props.loggedUser.email
    const [user,setUser]=useState({});
    const [component,setComponent]=useState({});
+   const [documentID,setDocumentID]=useState({});
    const db = firebase.firestore();
    const changeComponent=(e)=>{
        const compomentName = e.target.name
@@ -26,7 +27,9 @@ const Profile=(props) => {
                .get()
                .then(querySnapshot => {    
                    const data = querySnapshot.docs.map(doc => doc.data());
+                   const docID = querySnapshot.docs.map(doc => doc.id);
                    setUser(data[0])
+                   setDocumentID(docID[0])
            ;})            
        }
    }, [emailAddress]);
@@ -34,11 +37,11 @@ const Profile=(props) => {
    function renderComponent(){
         switch(component) {
         case "ChangeUserDetails":
-        return <ChangeUserDetails userDetails={user}/>;
+        return <ChangeUserDetails userDetails={user} docID={documentID}/>;
         case "VisitedCountries":
         return <VisitedCountries id={user.id}/>
         case "AddNewTravel":
-        return <AddNewTravel />
+        return <AddNewTravel id={user.id}/>
         default:
             return <CurrentUserDetails userDetails={user}/>
         }

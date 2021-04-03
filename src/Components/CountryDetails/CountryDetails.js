@@ -1,6 +1,8 @@
 import { useState,useEffect } from 'react';
 import SimpleMap from "../GoogleMaps/GoogleMaps"
 import * as countryService from "../../services/countryService"
+import firebase from "../../services/firebase-service"
+import 'firebase/firestore';
 import "./CountryDetails.css"
 
 
@@ -10,12 +12,26 @@ const CountryDetails = ({
         const country = match.params.country;
         let [countryInfo, setCountryInfo] = useState({});
 
+        let [countryData, setCountryData] = useState({});
+        useEffect(() => {
+            if(country){
+                const db = firebase.firestore();
+                db.collection("countries")
+                .where("countryName","==",country)
+                    .get()
+                    .then(querySnapshot => {    
+                        const data = querySnapshot.docs.map(doc => doc.data());
+                        setCountryData({...data})
+                ;})            
+            }
+        }, [country]);
+
+
         useEffect(() => {
             countryService.getCountryInfo(country)
                 .then(res => setCountryInfo(res));
-           
         }, [country]);
-    
+
         let destination;
         let imgURL;
         let imageName;
@@ -32,6 +48,14 @@ const CountryDetails = ({
             destination='the world'
             imgURL="../../images/main.jpg"
         }
+
+        function renderGoogleMaps(){
+            if(countryInfo){
+                if(countryInfo[0]){
+                    return <SimpleMap lat={countryInfo[0]?.latlng[0]} lng={countryInfo[0]?.latlng[1]} />
+                }
+            }
+          }
         return (
             <div>
                 <main className="main-container">
@@ -51,8 +75,10 @@ const CountryDetails = ({
                         <p><span className="emphasizedText">Native Country Name:</span> {countryInfo[0]?.nativeName}</p>
                         <p><span className="emphasizedText">Currency:</span> {countryInfo[0]?.currencies[0].name} ({countryInfo[0]?.currencies[0].code}) {countryInfo[0]?.currencies[0].symbol}</p>
                     </div>
+                    <p className="countryDetails-left">{countryData[0]?.description}</p>
                 </section>
-                <SimpleMap lat={countryInfo[0]?.latlng[0], countryInfo[0]?.latlng[1]}/>
+               
+                {renderGoogleMaps()}
             </div>
         )
 };

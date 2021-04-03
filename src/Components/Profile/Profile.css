@@ -1,8 +1,7 @@
 aside{
   float: left;
   width: 30%;
-  background:linear-gradient(to top right, #5c4a66, #8d4fff);   
-  margin-top: 10px;
+  background:linear-gradient(to top right, #5c4a66, #8d4fff);
 }
 
 aside li {

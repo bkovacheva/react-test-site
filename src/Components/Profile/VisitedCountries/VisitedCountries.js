@@ -11,8 +11,8 @@ const VisitedCountries=(id)=>{
         if(userId){
             const db = firebase.firestore();
             db.collection("visitedPlaces")
-            .where("userID","==",userId)
-            // .orderBy("date","desc")
+                .where("userID","==",userId)
+                .orderBy("travelDate","desc")
                 .get()
                 .then(querySnapshot => {    
                     const data = querySnapshot.docs.map(doc => doc.data());
@@ -29,7 +29,7 @@ const VisitedCountries=(id)=>{
                 if(visitedPlaces[data]){
                     let countryName= visitedPlaces[data]?.countryName
                     let continent=visitedPlaces[data]?.continent
-                    let date= new Date((visitedPlaces[0]?.travelDate.toDate()).toString())
+                    let date= new Date((visitedPlaces[data]?.travelDate.toDate()).toString())
                     let month=formatter.format(date)
                     let formattedDate= date.getDate() + ' ' +month + ' '+ date.getFullYear();
                     let imageName;
@@ -46,14 +46,10 @@ const VisitedCountries=(id)=>{
                                 <p>{countryName}</p>
                             </div>
                         </Link>
-                
                     )
-
                 }
-                
-                
             })}
         </div>
-        )
+    )
 }
 export default VisitedCountries;
